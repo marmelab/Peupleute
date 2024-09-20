@@ -1,4 +1,4 @@
-from os import listdir
+from os import listdir,path
 from os.path import isfile, join
 import simpleaudio as sa
 
@@ -10,9 +10,10 @@ def loadWavFile(filepath):
     return wav
 
 def getSongs():
-    songsDirectory = './songs/'
+    dirPath = path.dirname(path.realpath(__file__)) 
+    songsDirectory = dirPath+'/songs/'
     songsPaths = [songsDirectory+f for f in listdir(songsDirectory) if isfile(join(songsDirectory, f))]
-    return map(loadWavFile,songsPaths)
+    return map(loadWavFile, songsPaths)
 
 # def getNormalizedAudio(wave_file):
 #     audio = np.frombuffer(wave_obj.audio_data, 'int16')
