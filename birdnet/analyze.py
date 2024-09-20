@@ -179,7 +179,6 @@ def writeResultsToFile(detections, min_conf, path):
                 if entry[1] >= min_conf:
                     rfile.write(d + ';' + entry[0].replace('_', ';') + ';' + str(entry[1]) + '\n')
                     rcnt += 1
-                    names = entry[0].split('_')
     # print('DONE! WROTE', rcnt, 'RESULTS.')
 
 def getResults(detections, min_conf):

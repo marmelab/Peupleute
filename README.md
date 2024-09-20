@@ -74,3 +74,15 @@ To start the server that allows bird songs identification throught a REST API, y
 ```
 
 And then make a `POST` request on the http://localhost:8080/identify/ passing a `record` file. You can use http://localhost:8080/docs or Bruno to make the request using an interface.
+
+### TODO
+
+- Try using this tensorflow model into a web browser: https://www.tensorflow.org/js/tutorials/conversion/import_saved_model?hl=fr
+- Train the model with new species
+- Display a Fourier Transform using Matplotlib
+- Implement the MFCCs algorithm and test it against the dataset
+- Try other models
+  Up to date (and heavier) birdnet model: https://github.com/kahst/BirdNET-Analyzer
+  https://github.com/gojibjib/jibjib-model
+  https://huggingface.co/dima806/bird_sounds_classification
+  https://huggingface.co/dennisjooo/Birds-Classifier-EfficientNetB2
