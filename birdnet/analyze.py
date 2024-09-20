@@ -22,10 +22,12 @@ def loadModel():
     global MDATA_INPUT_INDEX
     global CLASSES
 
+    dirPath = os.path.dirname(os.path.realpath(__file__))
+    
     # print('LOADING TF LITE MODEL...', end=' ')
 
     # Load TFLite model and allocate tensors.
-    interpreter = tflite.Interpreter(model_path='model/BirdNET_6K_GLOBAL_MODEL.tflite')
+    interpreter = tflite.Interpreter(model_path=dirPath+'/model/BirdNET_6K_GLOBAL_MODEL.tflite')
     interpreter.allocate_tensors()
 
     # Get input and output tensors.
@@ -39,7 +41,7 @@ def loadModel():
 
     # Load labels
     CLASSES = []
-    with open('model/labels.txt', 'r') as lfile:
+    with open(dirPath+'/model/labels.txt', 'r') as lfile:
         for line in lfile.readlines():
             CLASSES.append(line.replace('\n', ''))
 

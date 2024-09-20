@@ -40,7 +40,7 @@ You can test the birdnet model against a bunch of recording of bird songs by fol
 
 First, you have to download some bird songs, you can use the `dowload_bird_songs.py` for it. Feel free to update the list of birds you want to get records from.
 
-```
+```sh
 python dowload_bird_songs.py
 ```
 
@@ -59,8 +59,8 @@ Otherwise you can just add manually new songs, following this directory structur
 
 And then test the model against the recordings:
 
-```
-python analyze.py
+```sh
+python test_model.py
 ```
 
 > **_NOTE:_** You should name the bird using the vernacular name or scientific name used in the `birdnet/model/labels.txt` file.
