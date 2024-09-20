@@ -22,7 +22,7 @@ def loadModel():
     global MDATA_INPUT_INDEX
     global CLASSES
 
-    print('LOADING TF LITE MODEL...', end=' ')
+    # print('LOADING TF LITE MODEL...', end=' ')
 
     # Load TFLite model and allocate tensors.
     interpreter = tflite.Interpreter(model_path='model/BirdNET_6K_GLOBAL_MODEL.tflite')
@@ -43,7 +43,7 @@ def loadModel():
         for line in lfile.readlines():
             CLASSES.append(line.replace('\n', ''))
 
-    print('DONE!')
+    # print('DONE!')
 
     return interpreter
 
@@ -80,7 +80,7 @@ def splitSignal(sig, rate, overlap, seconds=3.0, minlen=1.5):
 
 def readAudioData(path, overlap, sample_rate=48000):
 
-    print('READING AUDIO DATA...', end=' ', flush=True)
+    # print('READING AUDIO DATA...', end=' ', flush=True)
 
     # Open file with librosa (uses ffmpeg or libav)
     sig, rate = librosa.load(path, sr=sample_rate, mono=True, res_type='kaiser_fast')
@@ -88,7 +88,7 @@ def readAudioData(path, overlap, sample_rate=48000):
     # Split audio into 3-second chunks
     chunks = splitSignal(sig, rate, overlap)
 
-    print('DONE! READ', str(len(chunks)), 'CHUNKS.')
+    # print('DONE! READ', str(len(chunks)), 'CHUNKS.')
 
     return chunks
 
@@ -141,7 +141,7 @@ def analyzeAudioData(chunks, lat, lon, week, sensitivity, overlap, interpreter):
 
     detections = {}
     start = time.time()
-    print('ANALYZING AUDIO...', end=' ', flush=True)
+    # print('ANALYZING AUDIO...', end=' ', flush=True)
 
     # Convert and prepare metadata
     mdata = convertMetadata(np.array([lat, lon, week]))
@@ -162,12 +162,12 @@ def analyzeAudioData(chunks, lat, lon, week, sensitivity, overlap, interpreter):
         detections[str(pred_start) + ';' + str(pred_end)] = p
         pred_start = pred_end - overlap
 
-    print('DONE! Time', int((time.time() - start) * 10) / 10.0, 'SECONDS')
+    # print('DONE! Time', int((time.time() - start) * 10) / 10.0, 'SECONDS')
 
     return detections
 
 def writeResultsToFile(detections, min_conf, path):
-    print('WRITING RESULTS TO', path, '...', end=' ')
+    # print('WRITING RESULTS TO', path, '...', end=' ')
     rcnt = 0
     with open(path, 'w') as rfile:
         rfile.write('Start (s);End (s);Scientific name;Common name;Confidence\n')
@@ -177,7 +177,7 @@ def writeResultsToFile(detections, min_conf, path):
                     rfile.write(d + ';' + entry[0].replace('_', ';') + ';' + str(entry[1]) + '\n')
                     rcnt += 1
                     names = entry[0].split('_')
-    print('DONE! WROTE', rcnt, 'RESULTS.')
+    # print('DONE! WROTE', rcnt, 'RESULTS.')
 
 def getResults(detections, min_conf):
     birds = []
@@ -198,7 +198,9 @@ def identify(path, saveToFile=False):
     # Process audio data and get detections
     week = max(1, min(-1, 48))
     sensitivity = max(0.5, min(1.0 - (1.0 - 1.0), 1.5))
-    detections = analyzeAudioData(audioData, -1, -1, week, sensitivity, 0.0, interpreter)
+    long=2.209
+    lat=46.232
+    detections = analyzeAudioData(audioData, lat, long, week, sensitivity, 0.0, interpreter)
 
     # Write detections to output file
     min_conf = max(0.01, min(0.1, 0.99))
@@ -206,7 +208,7 @@ def identify(path, saveToFile=False):
     if(saveToFile):
         writeResultsToFile(detections, min_conf, 'result.csv')
     else:
-        return getResults()
+        return getResults(detections, min_conf)
 
 def main():
     # Parse passed arguments
