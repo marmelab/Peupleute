@@ -1,0 +1,15 @@
+meta {
+  name: Get file size
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8000/files/
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  file: @file(/home/arnaud/to_keep/HD/peupleute/songs/fauvette-tete-noire.wav)
+}
