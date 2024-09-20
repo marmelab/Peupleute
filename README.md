@@ -4,7 +4,7 @@ Analysis and identification of bird sounds with Python.
 
 ### Requirements
 
-- Python 3.x
+- Python 3.9.x
 
 ### Installing Dependencies
 
