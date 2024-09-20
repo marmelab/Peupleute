@@ -188,7 +188,7 @@ def getResults(detections, min_conf):
         for entry in detections[d]:
             if entry[1] >= min_conf:
                 names = entry[0].split('_')
-                birds.append(dict(scientificName=names[0], vernacularName=names[1]))
+                birds.append(dict(scientificName=names[0], vernacularName=names[1], match=str(entry[1])))
     return birds
 
 def identify(pathOrFile, saveToFile=False):
@@ -199,21 +199,23 @@ def identify(pathOrFile, saveToFile=False):
     audioData = readAudioData(pathOrFile, 0.0)
 
     # Process audio data and get detections
-    week = max(1, min(-1, 48))
-    sensitivity = max(0.5, min(1.0 - (1.0 - 1.0), 1.5))
+    week = 1
+    sensitivity = 1
+    # France
     long=2.209
     lat=46.232
     detections = analyzeAudioData(audioData, lat, long, week, sensitivity, 0.0, interpreter)
 
-    # Write detections to output file
-    min_conf = max(0.01, min(0.1, 0.99))
-
+    min_conf = 0.3
     if(saveToFile):
         writeResultsToFile(detections, min_conf, 'result.csv')
     else:
         return getResults(detections, min_conf)
 
 def main():
+
+    global WHITE_LIST
+
     # Parse passed arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('--i', help='Path to input file.')
@@ -230,6 +232,13 @@ def main():
 
     # Load model
     interpreter = loadModel()
+
+    # Load custom species list
+    if not args.custom_list == '':
+        WHITE_LIST = loadCustomSpeciesList(args.custom_list)
+    else:
+        WHITE_LIST = []
+
 
     # Read audio data
     audioData = readAudioData(args.i, args.overlap)

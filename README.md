@@ -29,7 +29,7 @@ Then open your browser at http://localhost:8888/notebooks/notebooks/birdnet.ipyn
 To identify birds in a record, you can use the birdnet model using:
 
 ```sh
-    cd birdnet && python analyze.py --i '../songs/pic-vert.wav'
+    cd birdnet && python analyze.py --i '../notebooks/songs/pic-vert.wav'
 ```
 
 And then read the result in the generated `result.csv` file.
