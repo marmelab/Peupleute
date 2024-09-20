@@ -22,7 +22,7 @@ To browse the notebook just run the following command:
 jupyter notebook
 ```
 
-Then open your browser at http://localhost:8888/notebooks/birdnet.ipynb
+Then open your browser at http://localhost:8888/notebooks/notebooks/birdnet.ipynb
 
 ### Identification
 
@@ -41,7 +41,7 @@ You can test the birdnet model against a bunch of recording of bird songs by fol
 First, you have to download some bird songs, you can use the `dowload_bird_songs.py` for it. Feel free to update the list of birds you want to get records from.
 
 ```
-cd birdnet && python dowload_bird_songs.py
+python dowload_bird_songs.py
 ```
 
 Otherwise you can just add manually new songs, following this directory structure:
@@ -60,5 +60,7 @@ Otherwise you can just add manually new songs, following this directory structur
 And then test the model against the recordings:
 
 ```
-cd birdnet && python analyze.py
+python analyze.py
 ```
+
+> **_NOTE:_** You should name the bird using the vernacular name or scientific name used in the `birdnet/model/labels.txt` file.

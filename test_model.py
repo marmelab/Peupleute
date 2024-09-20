@@ -1,4 +1,4 @@
-from analyze import identify 
+from birdnet.analyze import identify 
 import os
 
 DEBUG=False
