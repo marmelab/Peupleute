@@ -11,7 +11,7 @@ Analysis and identification of bird sounds with Python.
 Installation is as simple as:
 
 ```sh
-pip install -r requirements.txt
+    pip install -r requirements.txt
 ```
 
 ### Notebook
@@ -19,7 +19,7 @@ pip install -r requirements.txt
 To browse the notebook just run the following command:
 
 ```sh
-jupyter notebook
+    jupyter notebook
 ```
 
 Then open your browser at http://localhost:8888/notebooks/notebooks/birdnet.ipynb
@@ -29,7 +29,7 @@ Then open your browser at http://localhost:8888/notebooks/notebooks/birdnet.ipyn
 To identify birds in a record, you can use the birdnet model using:
 
 ```sh
-cd birdnet && python analyze.py --i '../songs/pic-vert.wav'
+    cd birdnet && python analyze.py --i '../songs/pic-vert.wav'
 ```
 
 And then read the result in the generated `result.csv` file.
@@ -41,7 +41,7 @@ You can test the birdnet model against a bunch of recording of bird songs by fol
 First, you have to download some bird songs, you can use the `dowload_bird_songs.py` for it. Feel free to update the list of birds you want to get records from.
 
 ```sh
-python dowload_bird_songs.py
+    python dowload_bird_songs.py
 ```
 
 Otherwise you can just add manually new songs, following this directory structure:
@@ -60,7 +60,17 @@ Otherwise you can just add manually new songs, following this directory structur
 And then test the model against the recordings:
 
 ```sh
-python test_model.py
+    python test_model.py
 ```
 
 > **_NOTE:_** You should name the bird using the vernacular name or scientific name used in the `birdnet/model/labels.txt` file.
+
+### REST API
+
+To start the server that allows bird songs identification throught a REST API, you have to start the server using:
+
+```sh
+    fastapi dev ./api/main.py
+```
+
+And then make a `POST` request on the http://localhost:8080/identify/ passing a `record` file. You can use http://localhost:8080/docs or Bruno to make the request using an interface.

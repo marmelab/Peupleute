@@ -14,6 +14,7 @@ import librosa
 import numpy as np
 import math
 import time
+import io
 
 def loadModel():
 
@@ -80,12 +81,12 @@ def splitSignal(sig, rate, overlap, seconds=3.0, minlen=1.5):
 
     return sig_splits
 
-def readAudioData(path, overlap, sample_rate=48000):
+def readAudioData(pathOrFile, overlap, sample_rate=48000):
 
     # print('READING AUDIO DATA...', end=' ', flush=True)
 
     # Open file with librosa (uses ffmpeg or libav)
-    sig, rate = librosa.load(path, sr=sample_rate, mono=True, res_type='kaiser_fast')
+    sig, rate = librosa.load(pathOrFile if isinstance(pathOrFile, str) else io.BytesIO(pathOrFile), sr=sample_rate, mono=True, res_type='kaiser_fast')
 
     # Split audio into 3-second chunks
     chunks = splitSignal(sig, rate, overlap)
@@ -190,12 +191,12 @@ def getResults(detections, min_conf):
                 birds.append(dict(scientificName=names[0], vernacularName=names[1]))
     return birds
 
-def identify(path, saveToFile=False):
+def identify(pathOrFile, saveToFile=False):
     # Load model
     interpreter = loadModel()
 
     # Read audio data
-    audioData = readAudioData(path, 0.0)
+    audioData = readAudioData(pathOrFile, 0.0)
 
     # Process audio data and get detections
     week = max(1, min(-1, 48))
@@ -243,9 +244,7 @@ def main():
     writeResultsToFile(detections, min_conf, args.o)
 
 if __name__ == '__main__':
-
     main()
-
     # Example calls
     # python3 analyze.py --i 'example/XC558716 - Soundscape.mp3' --lat 35.4244 --lon -120.7463 --week 18
     # python3 analyze.py --i 'example/XC563936 - Soundscape.mp3' --lat 47.6766 --lon -122.294 --week 11 --overlap 1.5 --min_conf 0.25 --sensitivity 1.25 --custom_list 'example/custom_species_list.txt'
